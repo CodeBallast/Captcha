@@ -1,6 +1,8 @@
 # Captcha
 For those interested in tightening their security with Captcha in .NET Core I’ve created a highly configurable component. The main functionality is implemented in a project neutral class called Captcha. This class can easily be incorporated in a .NET Standard, WinForms, WPF, etc. component. My implementation incorporates the class in a razor component.   There are a lot of ways to configure the Captcha component. Amongst some of the most mentionable options are the size, the number of characters to display, the size of the font, the angles to display the characters, how many lines to use to pollute the bitmap, etc. 
 
+<img src="https://github.com/CodeBallast/Captcha/blob/main/Images/Captcha.png">
+
 Below you’ll see just one configuration of the Captcha component. 
 
 ```cs
