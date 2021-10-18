@@ -1,0 +1,171 @@
+﻿@using System.Drawing
+@using CAPTCHA.Utils
+
+<div class="container-fluid">
+    <div class="row">
+        <p>@SubjectText</p>
+    </div>
+    <div class="row">
+        <img src="@_image" />
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+                <input class="test" style="width:100%;" type="text" @bind="@Input">
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-secondary oi oi-reload" width="100%" @onclick="@Refresh">@RefreshButtonText</button>
+        </div>
+    </div>
+</div>
+
+@code 
+{
+    private string _image = null;
+    private readonly Utils.Captcha _captcha = new();
+
+    [Parameter]
+    public bool CaseInsensitive { get; set; } = false;
+
+    [Parameter]
+    public int Width
+    {
+        get => _captcha.Width;
+        set => _captcha.Width = value;
+    }
+
+    [Parameter]
+    public int Height
+    {
+        get => _captcha.Height;
+        set => _captcha.Height = value;
+    }
+
+    [Parameter]
+    public int Pollution
+    {
+        get => _captcha.Pollution;
+        set => _captcha.Pollution = value;
+    }
+
+    [Parameter]
+    public int MarginLeft
+    {
+        get => _captcha.MarginLeft;
+        set => _captcha.MarginLeft = value;
+    }
+
+    [Parameter]
+    public int MarginTop
+    {
+        get => _captcha.MarginTop;
+        set => _captcha.MarginTop = value;
+    }
+
+    [Parameter]
+    public int JumpY
+    {
+        get => _captcha.JumpY;
+        set => _captcha.JumpY = value;
+    }
+
+    [Parameter]
+    public int SpaceBetween
+    {
+        get => _captcha.SpaceBetween;
+        set => _captcha.SpaceBetween = value;
+    }
+
+    [Parameter]
+    public HashSet<StringRandomizerType> Types
+    {
+        get => _captcha.Types;
+        set => _captcha.Types = value;
+    }
+
+    [Parameter]
+    public int CharacterSize
+    {
+        get => _captcha.CharacterSize;
+        set => _captcha.CharacterSize = value;
+    }
+
+    [Parameter]
+    public string CustomCharacters
+    {
+        get => _captcha.CustomCharacters;
+        set => _captcha.CustomCharacters = value;
+    }
+
+
+    [Parameter]
+    public int MinFontSize
+    {
+        get => _captcha.MinFontSize;
+        set => _captcha.MinFontSize = value;
+    }
+
+    [Parameter]
+    public int MaxFontSize
+    {
+        get => _captcha.MaxFontSize;
+        set => _captcha.MaxFontSize = value;
+    }
+
+    [Parameter]
+    public int MinAngle
+    {
+        get => _captcha.MinAngle;
+        set => _captcha.MinAngle = value;
+    }
+
+    [Parameter]
+    public int MaxAngle
+    {
+        get => _captcha.MaxAngle;
+        set => _captcha.MaxAngle = value;
+    }
+
+    [Parameter]
+    public List<string> FontNames
+    {
+        get => _captcha.FontNames;
+        set => _captcha.FontNames = value;
+    }
+
+    [Parameter]
+    public List<Brush> FontBrushes
+    {
+        get => _captcha.FontBrushes;
+        set => _captcha.FontBrushes = value;
+    }
+
+    [Parameter]
+    public string Input { get; set; }
+
+    [Parameter]
+    public string SubjectText { get; set; } = "To continue, please type the characters below.";
+
+    [Parameter]
+    public string RefreshButtonText { get; set; } = "Refresh";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            Refresh();
+        }
+    }
+
+    private void Refresh()
+    {
+        _image = _captcha.AsBase64();
+        StateHasChanged();
+    }
+
+    public bool Verify()
+    {
+        return _captcha.CheckAnswer(Input, CaseInsensitive);
+    }
+}
