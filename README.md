@@ -3,6 +3,7 @@ For those interested in tightening their security with Captcha in .NET Core I’
 
 Below you’ll see just one configuration of the Captcha component. 
 
+```cs
 @page "/"
 @using CAPTCHA.Utils
 @using CAPTCHA.Shared
@@ -64,3 +65,4 @@ Below you’ll see just one configuration of the Captcha component.
         await Task.CompletedTask;
     }
 }
+```
